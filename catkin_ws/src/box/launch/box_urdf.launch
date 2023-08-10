@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<launch>
+    <!--运行了这个launch file-->
+    <include file="$(find box)/launch/spawn_xacro.launch">
+        <!--将获取的盒子位置坐标和参数-->
+        <arg name="x" value="0.0"/>
+        <arg name="y" value="0.0"/>
+        <arg name="z" value="0.0"/>
+        <!--赋值给spawn_xacro.launch，再赋值urdf描述文件名-->
+        <arg name="urdf_robot_file" value="$(find box)/urdf/box.urdf"/>
+        <!--传递给机器人的名字，在gazebo里表示-->
+        <arg name="robot_name" value="my_box"/>
+    </include>
+
+</launch>

@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>    <!--html编写版本-->
+
+<!--机器人的名字，是在robot标签下-->
+<robot name="box">
+    <!--整个机器人有两个link，第一个是base_link，如果是车可能就是底盘-->
+    <link name="base_link">
+        <!--collision定义的是盒子的碰撞体积,可在gazebo view collision查看碰撞体积-->
+        <collision>
+            <!--origin定义物体相对原点的位置，rpy为角度变化绕定轴X(Roll)—Y(Pitch)—Z(Yaw)旋转-->
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <!--几何外观，几何关系，box/circle/...盒子就有长宽高-->
+            <geometry>
+                <box size="1 1 1"/>
+            </geometry>
+        </collision>
+        <!--定义零部件外观，和collision类似，可以定义外观和碰撞体积不一样，可以用3dmatch文件替换-->
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="1 1 1"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <!--用来连接两个物体的，关联外观和惯量，joint有不同的种类，伸缩/旋转/固定等-->
+    <!--只有第一个零部件需要joint,其他零部件可以写在一起-->
+    <joint name="inertial_joint" type="fixed">
+        <parent link="base_link"/>
+          <child link="main_mass"/>
+          <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+    <!--定义立方体的质量和转动惯量  inertial惯量，质量和每个方向的转动惯量，查找长方体转动惯量 1/12 * m * （w^2 + d^2）…… 1000/6 -->
+    <!--也可在gazebo中查看，view inertial-->
+    <link name="main_mass" type="fixed">
+        <parent link="inertial_joint"/>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="1000"/>
+            <inertia 
+             ixx="166.6666" ixy="0.000000" ixz="0.000000"
+             iyy="166.6666" iyz="0.000000"
+             izz="166.6666"/>
+        </inertial>
+    </link> 
+
+    <!--定义其他零部件-->
+    <!--<link name="whatever">
+        <collision>
+        </collision>
+        <visual>
+        </visual>
+
+    </link>  -->
+</robot>
